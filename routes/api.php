@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\ExamCourseController;
 use App\Http\Controllers\ExamGradeController;
 use App\Http\Controllers\ExamTypeController;
@@ -24,6 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('/login', [Controller::class, 'login']);
 Route::get('/exam-types', [ExamTypeController::class, 'index']);
 Route::get('/exam-types/{id}', [ExamTypeController::class, 'show']);
 

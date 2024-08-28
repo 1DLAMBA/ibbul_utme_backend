@@ -30,6 +30,10 @@ class Controller extends BaseController
             } else {
                 return response()->json(['message' => 'Invalid password'], 401);
             }
+            // return;
+        } else {
+            return response()->json(['message' => 'Invalid Credentials'], 401);
+
         };
     }
 }
