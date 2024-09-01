@@ -31,7 +31,9 @@ Route::get('/exam-types/{id}', [ExamTypeController::class, 'show']);
 
 Route::post('utme_login', [UtmeResultController::class, 'utme_login']);
 Route::post('utme_create', [UtmeResultController::class, 'utme_create']);
+Route::post('create_new_utme', [UtmeResultController::class, 'create_new_utme']);
 Route::post('eligibility', [UtmeResultController::class, 'show']);
+Route::get('get_single_utme_results/{reg_number}', [UtmeResultController::class, 'get']);
 Route::post('update-utme/{reg_number}', [UtmeResultController::class, 'update']);
 Route::apiResource('olevel', OlevelController::class);
 Route::put('olevel-update-1/{reg_number}', [OlevelController::class, 'update_ol1']);

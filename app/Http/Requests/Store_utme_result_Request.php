@@ -23,7 +23,7 @@ class Store_utme_result_Request extends FormRequest
     {
         return [
             'reg_number' => 'required|string|unique:utme_result,reg_number',
-            'dept_sn' => 'required',
+            'dept_sn' => '',
             'cand_name' => 'required|string',
             'state_of_origin' => 'required|string',
             'lga' => 'required|string',
@@ -43,15 +43,15 @@ class Store_utme_result_Request extends FormRequest
             'cors_id' => 'nullable|string',
             'phone_no' => 'nullable|string',
             'no_results' => 'required|boolean',
-            'pay_status' => 'required|boolean',
+            'pay_status' => 'nullable|boolean',
             'gen_date' => 'nullable|date',
-            'nin_file' => 'required|string',
-            'school_cert_file' => 'required|string',
-            'indigene_file' => 'required|string',
-            'ol2_card_file' => 'required|string',
-            'ol1_card_file' => 'required|string',
-            'ol1_result_file' => 'required|string',
-            'ol2_result_file' => 'required|string',
+            'nin_file' => 'string',
+            'school_cert_file' => 'string',
+            'indigene_file' => 'string',
+            'ol2_card_file' => 'string',
+            'ol1_card_file' => 'string',
+            'ol1_result_file' => 'string',
+            'ol2_result_file' => 'string',
         ];
     }
 }

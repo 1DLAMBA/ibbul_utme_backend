@@ -58,12 +58,33 @@ class UtmeResultController extends Controller
 
         return response()->json('success', 200);
     }
-    public function index()
+    public function index(Request $request)
     {
-        $utme_results = utme_result::all();
-        return Utme_result_Resource::collection($utme_results);
-    }
+        // Check for the `pay_status` filter in the request headers
+        $payStatus = $request->header('pay_status');
+        $search = $request->query('search');
+    
+        $query = utme_result::query();
+    
+        // Apply the `pay_status` filter if provided
+        if ($payStatus !== null) {
+            $query->where('pay_status', $payStatus);
+        }
 
+        if ($search) {
+            $query->where(function($q) use ($search) {
+                $q->where('reg_number', 'LIKE', "%{$search}%")
+                  ->orWhere('cand_name', 'LIKE', "%{$search}%");
+            });
+        }
+    
+        // Paginate the results, e.g., 50 items per page
+        $utme_results = $query->paginate(20);
+    
+        // Return paginated results with pagination details
+        return response()->json($utme_results, 200);
+    }
+// -----------------------CREATING NEW UTME RECORD( NEW REGISTERED================)
     public function utme_create(Request $request){
         $this->validate($request, [
             // your validation rules here
@@ -79,10 +100,35 @@ class UtmeResultController extends Controller
         return response()->json($utme_result, 201);
     }
 
+    public function create_new_utme(Request $request) {
+        try {
+            // Temporarily bypass validation for debugging
+            $create = utme_result::create($request->all());
+            $create->pay_status = 0;
+            $create->save(); 
+            return response()->json(['success' => 'Success'], 201);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' =>  $e->getMessage()], 401);
+        }
+    }
+    
+
     public function show(Request $id)
     {
         $utme_results =utme_result::with('olevels')->where('reg_number', $id->reg_number)->first();
         Log::alert($id);
+        if($utme_results){
+
+            return new Utme_result_Resource($utme_results);
+        }else {
+            return response()->json('Unauthorized', 401);
+        }
+    }
+    public function get( $reg_number)
+    {
+        $utme_results =utme_result::where('reg_number', $reg_number)->first();
+        Log::alert($reg_number);
         if($utme_results){
 
             return new Utme_result_Resource($utme_results);
