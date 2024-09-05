@@ -30,6 +30,10 @@ Route::post('/login', [Controller::class, 'login']);
 Route::get('/exam-types', [ExamTypeController::class, 'index']);
 Route::get('/exam-types/{id}', [ExamTypeController::class, 'show']);
 
+
+// ---------------UTME ENDPOINTS
+
+// ---------------UTME ENDPOINTS
 Route::post('utme_login', [UtmeResultController::class, 'utme_login']);
 Route::post('utme_create', [UtmeResultController::class, 'utme_create']);
 Route::post('create_new_utme', [UtmeResultController::class, 'create_new_utme']);
@@ -42,6 +46,7 @@ Route::put('olevel-update-1/{reg_number}', [OlevelController::class, 'update_ol1
 Route::put('olevel-update-2/{reg_number}', [OlevelController::class, 'update_ol2']);
 Route::apiResource('courses', ExamCourseController::class);
 Route::apiResource('utme_results', UtmeResultController::class);
+
 
 Route::apiResource('de_results', DeResultController::class);
 Route::post('de_results/import', [DeResultController::class, 'import']);

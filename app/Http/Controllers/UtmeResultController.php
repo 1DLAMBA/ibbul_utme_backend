@@ -6,6 +6,7 @@ use App\Http\Requests\Store_utme_result_Request;
 use App\Http\Requests\Update_utme_result_Request;
 use App\Http\Resources\Utme_result_Resource;
 use App\Imports\UtmeResultImport;
+use App\Models\DeResult;
 use App\Models\Olevel;
 use App\Models\utme_result;
 use Illuminate\Http\Request;
@@ -33,8 +34,33 @@ class UtmeResultController extends Controller
         $phone_no = $request->phone_no;
 
         // Query the database for the user with the provided registration number
-        $login = utme_result::with('olevels')->where('reg_number', $reg_number)->first();
-        Log::alert($request);
+        $utme_results = utme_result::with('olevels')->where('reg_number', $reg_number)->first();
+        $de_results = DeResult::with('olevels')->where('reg_number', $reg_number)->first();
+        // Log::alert($id);
+        // $login = utme_result::with('olevels')->where('reg_number', $reg_number)->first();
+        
+        if ($utme_results) {
+
+            if ($utme_results->phone_no === $phone_no) {
+                return response()->json(['utme_result' => $utme_results], 200);
+            } else {
+                return response()->json(['error' => 'Invalid phone number or Registration Number'], 401);
+            }
+        } else {
+            if($de_results){
+                if ($de_results->phone_no === $phone_no) {
+                    return response()->json(['utme_result' => $de_results], 200);
+                } else {
+                    return response()->json(['error' => 'Invalid phone number or Registration Number'], 401);
+                }
+
+            }else {
+
+                return response()->json('Unauthorized', 401);
+            }
+        }
+
+        
         // Check if the user exists
         if ($login) {
             // Check if the provided phone number matches the user's phone number
@@ -97,15 +123,36 @@ class UtmeResultController extends Controller
             // ...
         ]);
 
-        $utme_result = utme_result::where('reg_number', $request->reg_number)->first();
-        $utme_result->phone_no = $request->phone_no;
-        $utme_result->pay_status = 1;
-        $utme_result->save();
-        return response()->json($utme_result, 201);
+        $utme_results = utme_result::with('olevels')->where('reg_number', $request->reg_number)->first();
+        $de_results = DeResult::with('olevels')->where('reg_number', $request->reg_number)->first();
+        // Log::alert($id);
+        if ($utme_results) {
+
+            $utme_result = utme_result::where('reg_number', $request->reg_number)->first();
+            $utme_result->phone_no = $request->phone_no;
+            $utme_result->pay_status = 1;
+            $utme_result->save();
+            return response()->json($utme_result, 201);
+        } else {
+            if($de_results){
+                $de_results = DeResult::where('reg_number', $request->reg_number)->first();
+                $de_results->phone_no = $request->phone_no;
+                $de_results->pay_status = 1;
+                $de_results->save();
+                return response()->json($de_results, 201);
+
+            }else {
+
+                return response()->json('Unauthorized', 401);
+            }
+        }
+
+       
     }
 
     public function create_new_utme(Request $request)
     {
+        
         try {
             // Temporarily bypass validation for debugging
             $create = utme_result::create($request->all());
@@ -121,21 +168,29 @@ class UtmeResultController extends Controller
     public function show(Request $id)
     {
         $utme_results = utme_result::with('olevels')->where('reg_number', $id->reg_number)->first();
+        $de_results = DeResult::with('olevels')->where('reg_number', $id->reg_number)->first();
         Log::alert($id);
         if ($utme_results) {
 
             return new Utme_result_Resource($utme_results);
         } else {
-            return response()->json('Unauthorized', 401);
+            if($de_results){
+            return new DeResultResource($de_results);
+
+            }else {
+
+                return response()->json('Unauthorized', 401);
+            }
         }
     }
     public function get($reg_number)
     {
-        $utme_results = utme_result::where('reg_number', $reg_number)->first();
+        $utme_results = utme_result::with('olevels')->where('reg_number', $reg_number)->first();
         Log::alert($reg_number);
         if ($utme_results) {
 
-            return new Utme_result_Resource($utme_results);
+            return response()->json(['data' => $utme_results], 200);
+
         } else {
             return response()->json('Unauthorized', 401);
         }
