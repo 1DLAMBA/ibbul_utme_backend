@@ -3,8 +3,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DeResultRequest;
 use App\Http\Resources\DeResultResource;
+use App\Http\Resources\Utme_result_Resource;
 use App\Imports\DeResultsImport;
 use App\Models\DeResult;
+use App\Models\utme_result;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -12,8 +14,10 @@ class DeResultController extends Controller
 {
     public function index()
     {
-        $deResults = DeResult::all();
-        return DeResultResource::collection($deResults);
+        $deResults = utme_result::whereNull('most_preferred_inst')->get();
+    
+    // Return the filtered collection of results
+    return Utme_result_Resource::collection($deResults);
     }
 
     public function store(DeResultRequest $request)

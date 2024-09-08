@@ -13,16 +13,17 @@ return new class extends Migration
     {
         Schema::create('olevels', function (Blueprint $table) {
             $table->id();
-            $table->string('uid')->nullable();
-            $table->string('reg_number')->nullable();
-            $table->string('olevel1_exam')->nullable();
-            $table->string('olevel1_examno')->nullable();
+            $table->string('uid', 100)->nullable();
+            $table->string('reg_number', 50)->nullable();  // Reduced size
+            $table->string('de_reg_number', 50)->nullable();  // Reduced size
+            $table->string('olevel1_exam', 100)->nullable();
+            $table->string('olevel1_examno', 100)->nullable();
             $table->year('olevel1_examilyear')->nullable();
-            $table->string('olevel1_examilyear_t')->nullable();
-            $table->string('olevel1_exammonth')->nullable();
-            $table->string('olevel1_exammonth_t')->nullable();
-            $table->string('ol1_result_pin')->nullable();
-            $table->string('ol1_result_sno')->nullable();
+            $table->string('olevel1_examilyear_t', 10)->nullable();  // Reduced size
+            $table->string('olevel1_exammonth', 50)->nullable();
+            $table->string('olevel1_exammonth_t', 10)->nullable();  // Reduced size
+            $table->string('ol1_result_pin', 100)->nullable();
+            $table->string('ol1_result_sno', 100)->nullable();
             $table->string('ol1_s1')->nullable();
             $table->string('ol1_g1')->nullable();
             $table->string('ol1_s2')->nullable();
@@ -84,6 +85,8 @@ return new class extends Migration
         
 
             $table->foreign('reg_number')->references('reg_number')->on('utme_results')->onDelete('cascade');
+            $table->foreign('de_reg_number')->references('reg_number')->on('de_results')->onDelete('cascade');
+
         });
     }
 

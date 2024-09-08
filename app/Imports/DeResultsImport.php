@@ -4,8 +4,9 @@ namespace App\Imports;
 
 use App\Models\DeResult;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class DeResultsImport implements ToModel
+class DeResultsImport implements ToModel, WithHeadingRow
 {
     public function model(array $row)
     {
@@ -25,8 +26,8 @@ class DeResultsImport implements ToModel
             'lga' => $row['lga'],
             'sex' => $row['sex'],
             'age' => $row['age'],
-            'aggregate' => $row[7],
-            'fac_abrev' => $row['facabrev'],
+            'aggregate' => $row['aggregate'],
+            'fac_abrev' => $row['faculty'],
             'cors_abrev' => $row['corsabrev'],
             'cors_id' => $row['corsid'],
             'phone_no' => $row['phoneno'],

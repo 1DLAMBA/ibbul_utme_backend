@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Store_utme_result_Request;
 use App\Http\Requests\Update_utme_result_Request;
+use App\Http\Resources\DeResultResource;
 use App\Http\Resources\Utme_result_Resource;
 use App\Imports\UtmeResultImport;
 use App\Models\DeResult;
@@ -38,7 +39,7 @@ class UtmeResultController extends Controller
         $de_results = DeResult::with('olevels')->where('reg_number', $reg_number)->first();
         // Log::alert($id);
         // $login = utme_result::with('olevels')->where('reg_number', $reg_number)->first();
-        
+
         if ($utme_results) {
 
             if ($utme_results->phone_no === $phone_no) {
@@ -47,20 +48,19 @@ class UtmeResultController extends Controller
                 return response()->json(['error' => 'Invalid phone number or Registration Number'], 401);
             }
         } else {
-            if($de_results){
+            if ($de_results) {
                 if ($de_results->phone_no === $phone_no) {
                     return response()->json(['utme_result' => $de_results], 200);
                 } else {
                     return response()->json(['error' => 'Invalid phone number or Registration Number'], 401);
                 }
-
-            }else {
+            } else {
 
                 return response()->json('Unauthorized', 401);
             }
         }
 
-        
+
         // Check if the user exists
         if ($login) {
             // Check if the provided phone number matches the user's phone number
@@ -87,13 +87,21 @@ class UtmeResultController extends Controller
 
         return response()->json('success', 200);
     }
+    public function view_utme_list()
+    {
+        $deResults = utme_result::whereNotNull('most_preferred_inst')->get();
+
+        // Return the filtered collection of results
+        return Utme_result_Resource::collection($deResults);
+    }
+
     public function index(Request $request)
     {
         // Check for the `pay_status` filter in the request headers
         $payStatus = $request->header('pay_status');
         $search = $request->query('search');
 
-        $query = utme_result::query();
+        $query = utme_result::whereNotNull('most_preferred_inst')->get();
 
         // Apply the `pay_status` filter if provided
         if ($payStatus !== null) {
@@ -134,25 +142,22 @@ class UtmeResultController extends Controller
             $utme_result->save();
             return response()->json($utme_result, 201);
         } else {
-            if($de_results){
+            if ($de_results) {
                 $de_results = DeResult::where('reg_number', $request->reg_number)->first();
                 $de_results->phone_no = $request->phone_no;
                 $de_results->pay_status = 1;
                 $de_results->save();
                 return response()->json($de_results, 201);
-
-            }else {
+            } else {
 
                 return response()->json('Unauthorized', 401);
             }
         }
-
-       
     }
 
     public function create_new_utme(Request $request)
     {
-        
+
         try {
             // Temporarily bypass validation for debugging
             $create = utme_result::create($request->all());
@@ -174,10 +179,9 @@ class UtmeResultController extends Controller
 
             return new Utme_result_Resource($utme_results);
         } else {
-            if($de_results){
-            return new DeResultResource($de_results);
-
-            }else {
+            if ($de_results) {
+                return new DeResultResource($de_results);
+            } else {
 
                 return response()->json('Unauthorized', 401);
             }
@@ -186,12 +190,15 @@ class UtmeResultController extends Controller
     public function get($reg_number)
     {
         $utme_results = utme_result::with('olevels')->where('reg_number', $reg_number)->first();
+        $de_results = DeResult::with('olevels')->where('reg_number', $reg_number)->first();
         Log::alert($reg_number);
         if ($utme_results) {
 
             return response()->json(['data' => $utme_results], 200);
-
         } else {
+            if ($de_results) {
+                return response()->json(['data' => $de_results], 200);
+            }
             return response()->json('Unauthorized', 401);
         }
     }
@@ -244,38 +251,36 @@ class UtmeResultController extends Controller
             'subj4_score' => 'required|integer|min:0|max:100',
             'total_score' => 'required|integer|min:0|max:400',
         ];
-    
+
         // Validate the request data
         $validated = $request->validate($rules);
-    
+
         // Check if a UTME result with the given reg_number exists
         $check_reg = utme_result::where('reg_number', $request->reg_number)->first();
-    
+
         if ($check_reg) {
             if ($request->reg_number == $reg_number) {
                 // Begin a database transaction
                 DB::beginTransaction();
-    
+
                 try {
                     // Update the reg_number in the olevels table first
                     Olevel::where('reg_number', $reg_number)->update(['reg_number' => $request->reg_number]);
-    
+
                     // Then update the record in the utme_results table
                     $utme_result = utme_result::where('reg_number', $reg_number)->first();
                     $utme_result->update($validated);
-    
+
                     // Commit the transaction
                     DB::commit();
-    
+
                     return response()->json($utme_result, 200);
-    
                 } catch (\Exception $e) {
                     // If something goes wrong, rollback the transaction
                     DB::rollBack();
-    
+
                     return response()->json(['error' => $e->getMessage()], 500);
                 }
-    
             } else {
                 // If the reg_number in the request doesn't match the one being updated
                 return response()->json('A student with that registration number already exists.', 401);
@@ -284,17 +289,17 @@ class UtmeResultController extends Controller
             Log::alert('father');
             // Begin a database transaction
             Olevel::where('reg_number', $reg_number)->update(['reg_number' => $request->reg_number]);
-    
-                    // Then update the record in the utme_results table
-                    $utme_result = utme_result::where('reg_number', $reg_number)->first();
-                    $utme_result->update($validated);
-    
+
+            // Then update the record in the utme_results table
+            $utme_result = utme_result::where('reg_number', $reg_number)->first();
+            $utme_result->update($validated);
+
 
             // Return the updated record as a JSON response
             return response()->json($utme_result, 200);
         }
     }
-    
+
 
 
     public function delete($id)

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('eng_score')->nullable();
             $table->string('subj2')->nullable();
             $table->integer('subj2_score')->nullable();
+            $table->string('aggregate')->nullable();
             $table->string('subj3')->nullable();
             $table->integer('subj3_score')->nullable();
             $table->string('subj4')->nullable();

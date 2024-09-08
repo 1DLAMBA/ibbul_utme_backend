@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Olevel extends Model
 {
@@ -82,6 +83,11 @@ class Olevel extends Model
     public function student()
     {
         return $this->belongsTo(utme_result::class, 'reg_number', 'reg_number');
+    }
+
+    public function student_de(): HasMany
+    {
+        return $this->hasMany(DEresult::class, 'reg_number', 'reg_number');
     }
 
 }

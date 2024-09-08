@@ -8,6 +8,7 @@ use App\Http\Controllers\ExamTypeController;
 use App\Http\Controllers\fileUploadController;
 use App\Http\Controllers\OlevelController;
 use App\Http\Controllers\UtmeResultController;
+use App\Models\utme_result;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -40,6 +41,7 @@ Route::post('create_new_utme', [UtmeResultController::class, 'create_new_utme'])
 Route::post('eligibility', [UtmeResultController::class, 'show']);
 Route::get('get_single_utme_results/{reg_number}', [UtmeResultController::class, 'get']);
 Route::post('update-utme/{reg_number}', [UtmeResultController::class, 'update']);
+Route::get('view_utme_list', [UtmeResultController::class, 'view_utme_list']);
 Route::post('update-utme-details/{reg_number}', [UtmeResultController::class, 'update_utme']);
 Route::apiResource('olevel', OlevelController::class);
 Route::put('olevel-update-1/{reg_number}', [OlevelController::class, 'update_ol1']);
@@ -48,8 +50,11 @@ Route::apiResource('courses', ExamCourseController::class);
 Route::apiResource('utme_results', UtmeResultController::class);
 
 
+
 Route::apiResource('de_results', DeResultController::class);
 Route::post('de_results/import', [DeResultController::class, 'import']);
+
+Route::apiResource('alevel-records', AlevelRecordController::class);
 
 Route::get('/exam-grades', [ExamGradeController::class, 'index']);
 Route::get('/exam-grades/{id}', [ExamGradeController::class, 'show']);

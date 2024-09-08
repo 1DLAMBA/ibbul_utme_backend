@@ -28,6 +28,6 @@ class DeResult extends Model
 
     public function olevels()
     {
-        return $this->hasMany(Olevel::class, 'reg_number', 'reg_number');
+        return $this->hasMany(Olevel::class, 'de_reg_number', 'reg_number');
     }
 }
