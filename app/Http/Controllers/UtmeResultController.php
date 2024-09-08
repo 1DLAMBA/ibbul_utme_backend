@@ -87,40 +87,85 @@ class UtmeResultController extends Controller
 
         return response()->json('success', 200);
     }
-    public function view_utme_list()
+    public function view_utme_list(Request $request)
     {
-        $deResults = utme_result::whereNotNull('most_preferred_inst')->get();
-
-        // Return the filtered collection of results
-        return Utme_result_Resource::collection($deResults);
+        // Get search query and pay_status from the request
+        $searchQuery = $request->query('search');
+        $payStatus = $request->header('pay_status');
+        $page = $request->query('page', 1); // Default to page 1 if no page is provided
+        $perPage = 10; // Number of items per page
+    
+        // Build the query to fetch records with `most_preferred_inst` not null
+        $query = utme_result::whereNotNull('most_preferred_inst');
+    
+        // Apply search filter if search query is provided
+        if (!empty($searchQuery)) {
+            $query->where(function($q) use ($searchQuery) {
+                $q->where('cand_name', 'LIKE', '%' . $searchQuery . '%')
+                  ->orWhere('reg_number', 'LIKE', '%' . $searchQuery . '%');
+            });
+        }
+    
+        // Apply `pay_status` filter if provided
+        if (!is_null($payStatus)) {
+            $query->where('pay_status', $payStatus);
+        }
+    
+        // Paginate the results
+        $deResults = $query->paginate($perPage, ['*'], 'page', $page);
+    
+        // Transform results into a resource collection
+        $utme_results = Utme_result_Resource::collection($deResults);
+    
+        // Return paginated results with pagination details
+        return response()->json([
+            'data' => $utme_results,
+            'current_page' => $deResults->currentPage(),
+            'per_page' => $deResults->perPage(),
+            'total' => $deResults->total(),
+        ], 200);
     }
+    
 
     public function index(Request $request)
     {
-        // Check for the `pay_status` filter in the request headers
+        // Get search query and pay_status from the request
+        $searchQuery = $request->query('search');
         $payStatus = $request->header('pay_status');
-        $search = $request->query('search');
-
-        $query = utme_result::whereNotNull('most_preferred_inst')->get();
-
-        // Apply the `pay_status` filter if provided
-        if ($payStatus !== null) {
-            $query->where('pay_status', $payStatus);
-        }
-
-        if ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('reg_number', 'LIKE', "%{$search}%")
-                    ->orWhere('cand_name', 'LIKE', "%{$search}%");
+        $page = $request->query('page', 1); // Default to page 1 if no page is provided
+        $perPage = 10; // Number of items per page
+    
+        // Build the query to fetch all records and apply search and pay_status filters
+        $query = utme_result::query();
+    
+        // Apply search filter
+        if (!empty($searchQuery)) {
+            $query->where(function($q) use ($searchQuery) {
+                $q->where('cand_name', 'LIKE', '%' . $searchQuery . '%')
+                  ->orWhere('reg_number', 'LIKE', '%' . $searchQuery . '%');
             });
         }
-
-        // Paginate the results, e.g., 50 items per page
-        $utme_results = $query->paginate(20);
-
+    
+        // Apply `pay_status` filter if provided
+        if (!is_null($payStatus)) {
+            $query->where('pay_status', $payStatus);
+        }
+    
+        // Paginate the results
+        $deResults = $query->paginate($perPage, ['*'], 'page', $page);
+    
+        // Transform results into a resource collection
+        $utme_results = Utme_result_Resource::collection($deResults);
+    
         // Return paginated results with pagination details
-        return response()->json($utme_results, 200);
+        return response()->json([
+            'data' => $utme_results,
+            'current_page' => $deResults->currentPage(),
+            'per_page' => $deResults->perPage(),
+            'total' => $deResults->total(),
+        ], 200);
     }
+    
     // -----------------------CREATING NEW UTME RECORD( NEW REGISTERED================)
     public function utme_create(Request $request)
     {
