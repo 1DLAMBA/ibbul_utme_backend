@@ -21,7 +21,7 @@ class DeResultController extends Controller
         $perPage = 10; // Number of items per page
     
         // Build the query to fetch records with `most_preferred_inst` not null
-        $query = utme_result::whereNull('most_preferred_inst');
+        $query = utme_result::whereNull('total_score');
     
         // Apply search filter if search query is provided
         if (!empty($searchQuery)) {

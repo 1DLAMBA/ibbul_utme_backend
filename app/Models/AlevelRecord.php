@@ -11,6 +11,8 @@ class AlevelRecord extends Model
     protected $fillable = [
         'institution_name',
         'candidate_name',
+        'reg_number',
+        'Al1_file',
         'year_of_issue',
         'course',
         'class_of_graduation',
@@ -24,4 +26,9 @@ class AlevelRecord extends Model
         'subject4',
         'subject4_grade',
     ];
+
+    public function student()
+    {
+        return $this->belongsTo(utme_result::class, 'reg_number', 'reg_number');
+    }
 }

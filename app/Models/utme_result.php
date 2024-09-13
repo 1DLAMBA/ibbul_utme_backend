@@ -14,6 +14,9 @@ class utme_result extends Model
         'dept_sn',
         'cand_name',
         'state_of_origin',
+        'reference',
+        'transaction_id',
+        'payment_date',
         'lga',
         'sex',
         'age',
@@ -46,5 +49,9 @@ class utme_result extends Model
     public function olevels()
     {
         return $this->hasOne(Olevel::class, 'reg_number', 'reg_number');
+    }
+    public function alevelrecords()
+    {
+        return $this->hasOne(AlevelRecord::class, 'reg_number', 'reg_number');
     }
 }

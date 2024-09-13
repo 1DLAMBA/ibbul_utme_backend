@@ -12,24 +12,29 @@ class CreateAlevelRecordsTable extends Migration
     {
         Schema::create('alevel_records', function (Blueprint $table) {
             $table->id();
-            $table->string('institution_name');
-            $table->string('candidate_name');
-            $table->year('year_of_issue');
-            $table->string('course'); // Course column
-            $table->string('class_of_graduation'); // Class of graduation column
-            $table->string('result_type'); // Class of graduation column
+            $table->string('institution_name')->nullable();
+            $table->string('candidate_name')->nullable();
+            $table->year('year_of_issue')->nullable();
+            $table->string('course')->nullable(); // Course column
+            $table->string('class_of_graduation')->nullable(); // Class of graduation column
+            $table->string('result_type')->nullable(); // Class of graduation column
 
             // 4 Subjects and respective grades
-            $table->string('subject1');
-            $table->string('subject1_grade');
-            $table->string('subject2');
-            $table->string('subject2_grade');
-            $table->string('subject3');
-            $table->string('subject3_grade');
-            $table->string('subject4');
-            $table->string('subject4_grade');
+            $table->string('reg_number', 50)->nullable();  // Reduced size
+
+            $table->string('subject1')->nullable();
+            $table->string('subject1_grade')->nullable();
+            $table->string('subject2')->nullable();
+            $table->string('subject2_grade')->nullable();
+            $table->string('subject3')->nullable();
+            $table->string('subject3_grade')->nullable();
+            $table->string('subject4')->nullable();
+            $table->string('subject4_grade')->nullable();
             
             $table->timestamps();
+
+            $table->foreign('reg_number')->references('reg_number')->on('utme_results')->onDelete('cascade');
+
         });
     }
 

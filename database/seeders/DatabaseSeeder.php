@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ExamCourseTableSeeder::class);
         $this->call(ExamGradesTableSeeder::class);
         $this->call(ExamTypesTableSeeder::class);
+        $this->call(DE_course_Seeder::class);
     }
 }

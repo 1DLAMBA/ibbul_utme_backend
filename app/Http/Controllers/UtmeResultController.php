@@ -35,7 +35,7 @@ class UtmeResultController extends Controller
         $phone_no = $request->phone_no;
 
         // Query the database for the user with the provided registration number
-        $utme_results = utme_result::with('olevels')->where('reg_number', $reg_number)->first();
+        $utme_results = utme_result::with('olevels','alevelrecords')->where('reg_number', $reg_number)->first();
         $de_results = DeResult::with('olevels')->where('reg_number', $reg_number)->first();
         // Log::alert($id);
         // $login = utme_result::with('olevels')->where('reg_number', $reg_number)->first();
@@ -96,7 +96,7 @@ class UtmeResultController extends Controller
         $perPage = 10; // Number of items per page
     
         // Build the query to fetch records with `most_preferred_inst` not null
-        $query = utme_result::whereNotNull('most_preferred_inst');
+        $query = utme_result::whereNotNull('total_score');
     
         // Apply search filter if search query is provided
         if (!empty($searchQuery)) {
@@ -173,8 +173,11 @@ class UtmeResultController extends Controller
             // your validation rules here
             'phone_no' => '',
             'reg_number' => '',
+            'reference' => 'required|string',
+            'payment_date' => 'required|date',
             // ...
         ]);
+        $transactionId = uniqid('txn_', true); //
 
         $utme_results = utme_result::with('olevels')->where('reg_number', $request->reg_number)->first();
         $de_results = DeResult::with('olevels')->where('reg_number', $request->reg_number)->first();
@@ -184,6 +187,9 @@ class UtmeResultController extends Controller
             $utme_result = utme_result::where('reg_number', $request->reg_number)->first();
             $utme_result->phone_no = $request->phone_no;
             $utme_result->pay_status = 1;
+            $utme_result->transaction_id =  $transactionId ;
+            $utme_result->reference =  $request->reference ;
+            $utme_result->payment_date =  $request->payment_date ;
             $utme_result->save();
             return response()->json($utme_result, 201);
         } else {

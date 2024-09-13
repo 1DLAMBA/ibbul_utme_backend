@@ -53,8 +53,15 @@ Route::apiResource('utme_results', UtmeResultController::class);
 
 Route::apiResource('de_results', DeResultController::class);
 Route::post('de_results/import', [DeResultController::class, 'import']);
+Route::post('course_import/import', [CourseImportController::class, 'import']);
+Route::post('institution/import', [InstitutionImportController::class, 'import']);
+Route::post('course_import/get', [CourseImportController::class, 'get']);
+Route::post('institution/get', [InstitutionImportController::class, 'get']);
+Route::post('alevel-records/update/{reg_number}', [AlevelRecordController::class, 'store']);
 
 Route::apiResource('alevel-records', AlevelRecordController::class);
+Route::apiResource('institutions', InstitutionImportController::class);
+Route::apiResource('de_courses', CourseImportController::class);
 
 Route::get('/exam-grades', [ExamGradeController::class, 'index']);
 Route::get('/exam-grades/{id}', [ExamGradeController::class, 'show']);

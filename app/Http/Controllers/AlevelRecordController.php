@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\AlevelRecord;
@@ -19,10 +20,26 @@ class AlevelRecordController extends Controller
     /**
      * Store a new A-level record.
      */
-    public function store(StoreAlevelRecordRequest $request)
+    public function store(StoreAlevelRecordRequest $request, $reg_number)
     {
-        $record = AlevelRecord::create($request->validated());
-        return new AlevelRecordResource($record);
+        $ol1_exists = AlevelRecord::where('reg_number', $request->reg_number)->first();
+        if ($ol1_exists) {
+        // $ol1_exists = AlevelRecord::where('reg_number', $request->reg_number)->first();
+            $ol1_exists->delete();
+
+            $validated_data = $request->validated();
+            $validated_data['reg_number'] = $reg_number;
+
+            $record = AlevelRecord::create($validated_data);
+            return response()->json('success', 200);
+        } else {
+
+            $validated_data = $request->validated();
+            $validated_data['reg_number'] = $reg_number;
+
+            $record = AlevelRecord::create($validated_data);
+            return new AlevelRecordResource($record);
+        }
     }
 
     /**
