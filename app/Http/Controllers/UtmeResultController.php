@@ -240,8 +240,8 @@ class UtmeResultController extends Controller
     }
     public function get($reg_number)
     {
-        $utme_results = utme_result::with('olevels')->where('reg_number', $reg_number)->first();
-        $de_results = DeResult::with('olevels')->where('reg_number', $reg_number)->first();
+        $utme_results = utme_result::with('olevels','alevelrecords')->where('reg_number', $reg_number)->first();
+        $de_results = DeResult::with('olevels', 'alevelrecords')->where('reg_number', $reg_number)->first();
         Log::alert($reg_number);
         if ($utme_results) {
 
@@ -353,9 +353,9 @@ class UtmeResultController extends Controller
 
 
 
-    public function delete($id)
+    public function delete($reg_number)
     {
-        utme_result::findOrFail($id)->delete();
+        utme_result::findOrFail($reg_number)->delete();
         return response()->json(null, 204);
     }
 

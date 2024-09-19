@@ -42,6 +42,7 @@ Route::post('eligibility', [UtmeResultController::class, 'show']);
 Route::get('get_single_utme_results/{reg_number}', [UtmeResultController::class, 'get']);
 Route::post('update-utme/{reg_number}', [UtmeResultController::class, 'update']);
 Route::get('view_utme_list', [UtmeResultController::class, 'view_utme_list']);
+Route::delete('utme_results/delete/{reg_number}', [UtmeResultController::class, 'delete']);
 Route::post('update-utme-details/{reg_number}', [UtmeResultController::class, 'update_utme']);
 Route::apiResource('olevel', OlevelController::class);
 Route::put('olevel-update-1/{reg_number}', [OlevelController::class, 'update_ol1']);
