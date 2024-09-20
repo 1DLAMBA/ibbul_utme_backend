@@ -14,7 +14,7 @@ class ExamGradesTableSeeder extends Seeder
     public function run(): void
     {
         $examGrades = [
-            ['id' => '1' ,'waec' => 'A1', 'neco' => 'A1', 'nabteb' => 'A1', 'grade2' => 'A', 'nbais' => 'A'],
+            ['id' => '1' ,'waec' => 'A1', 'neco' => 'A1', 'nabteb' => 'A1', 'grade2' => 'A', 'nbais' => 'A1'],
             ['id' => '2' ,'waec' => 'B2', 'neco' => 'B2', 'nabteb' => 'A2', 'grade2' => 'B', 'nbais' => 'B2'],
             ['id' => '3' ,'waec' => 'B3', 'neco' => 'B3', 'nabteb' => 'A3', 'grade2' => 'B1', 'nbais' => 'B3'],
             ['id' => '4' ,'waec' => 'C4', 'neco' => 'C4', 'nabteb' => 'C4', 'grade2' => 'B2', 'nbais' => 'C4'],
