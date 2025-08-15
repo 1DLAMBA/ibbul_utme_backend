@@ -25,6 +25,12 @@ class AlevelRecord extends Model
         'subject3_grade',
         'subject4',
         'subject4_grade',
+        'mj0',
+        'mj0_grade',
+        'mj1',
+        'mj1_grade',
+        'mj2',
+        'mj2_grade',
     ];
 
     public function student()

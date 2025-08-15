@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -34,6 +35,12 @@ class StoreAlevelRecordRequest extends FormRequest
             'subject3_grade' => 'string|max:2',
             'subject4' => 'string|max:255',
             'subject4_grade' => 'string|max:2',
+            'mj0' => 'string|max:255',
+            'mj0_grade' => 'string|max:255',
+            'mj1' => 'string|max:255',
+            'mj1_grade' => 'string|max:255',
+            'mj2' => 'string|max:255',
+            'mj2_grade' => 'string|max:255',
         ];
     }
 }

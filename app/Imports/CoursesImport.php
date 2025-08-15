@@ -17,7 +17,7 @@ class CoursesImport implements ToModel
     {
         Log::debug($row);
         return new Course([
-            'name'  => $row[0], // Adjust based on the structure of your Excel sheet
+            'name'  => $row[1], // Adjust based on the structure of your Excel sheet
             'level'  => ' ', // Adjust based on the structure of your Excel sheet
         ]);
     }

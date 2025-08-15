@@ -128,43 +128,45 @@ class UtmeResultController extends Controller
     
 
     public function index(Request $request)
-    {
-        // Get search query and pay_status from the request
-        $searchQuery = $request->query('search');
-        $payStatus = $request->header('pay_status');
-        $page = $request->query('page', 1); // Default to page 1 if no page is provided
-        $perPage = 10; // Number of items per page
-    
-        // Build the query to fetch all records and apply search and pay_status filters
-        $query = utme_result::query();
-    
-        // Apply search filter
-        if (!empty($searchQuery)) {
-            $query->where(function($q) use ($searchQuery) {
-                $q->where('cand_name', 'LIKE', '%' . $searchQuery . '%')
-                  ->orWhere('reg_number', 'LIKE', '%' . $searchQuery . '%');
-            });
-        }
-    
-        // Apply `pay_status` filter if provided
-        if (!is_null($payStatus)) {
-            $query->where('pay_status', $payStatus);
-        }
-    
-        // Paginate the results
-        $deResults = $query->paginate($perPage, ['*'], 'page', $page);
-    
-        // Transform results into a resource collection
-        $utme_results = Utme_result_Resource::collection($deResults);
-    
-        // Return paginated results with pagination details
-        return response()->json([
-            'data' => $utme_results,
-            'current_page' => $deResults->currentPage(),
-            'per_page' => $deResults->perPage(),
-            'total' => $deResults->total(),
-        ], 200);
+{
+    // Get search query and pay_status from the request
+    $searchQuery = $request->query('search');
+    $payStatus = $request->header('pay_status');
+
+    // Start with base query (same pattern as utme_login)
+    $query = utme_result::with('olevels', 'alevelrecords');
+
+    // Apply search filter
+    if (!empty($searchQuery)) {
+        $query->where(function($q) use ($searchQuery) {
+            $q->where('cand_name', 'LIKE', '%' . $searchQuery . '%')
+              ->orWhere('reg_number', 'LIKE', '%' . $searchQuery . '%');
+        });
     }
+
+    // Apply `pay_status` filter if provided
+    if (!is_null($payStatus)) {
+        $query->where('pay_status', $payStatus);
+    }
+
+    // Get all results with relationships
+    $full_utme_results = $query->get();
+
+    // Option 1: Return raw data (like utme_login function)
+    return response()->json([
+        'data' => $full_utme_results,
+        'total' => $full_utme_results->count(),
+    ], 200);
+
+    // Option 2: If you need to use the Resource class, uncomment below and comment above
+    /*
+    $utme_results = Utme_result_Resource::collection($full_utme_results);
+    return response()->json([
+        'data' => $utme_results,
+        'total' => $full_utme_results->count(),
+    ], 200);
+    */
+}
     
     // -----------------------CREATING NEW UTME RECORD( NEW REGISTERED================)
     public function utme_create(Request $request)

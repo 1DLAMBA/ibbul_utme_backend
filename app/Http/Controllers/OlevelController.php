@@ -80,6 +80,36 @@ class OlevelController extends Controller
         $ol1_exists = Olevel::where('reg_number', $request->reg_number)->first();
         $ol1_find = Olevel::where('olevel1_examno', $request->olevel1_examno)->first();
         $ol2_find = Olevel::where('olevel2_examno', $request->olevel1_examno)->first();
+        
+        // Check for duplicate subjects with O-Level 2
+        if ($ol1_exists) {
+            $duplicate_subjects = [];
+            for ($i = 1; $i <= 12; $i++) {
+                $ol1_subject_key = "ol1_s{$i}";
+                
+                if ($request->has($ol1_subject_key) && $request->$ol1_subject_key !== null) {
+                    $ol1_subject_value = $request->$ol1_subject_key;
+                    
+                    // Check if this subject exists in O-Level 2
+                    for ($j = 1; $j <= 12; $j++) {
+                        $ol2_subject_key = "ol2_s{$j}";
+                        
+                        if ($ol1_exists->$ol2_subject_key == $ol1_subject_value) {
+                            $duplicate_subjects[] = "Subject code {$ol1_subject_value} in Subject {$i} already exists in O-Level 2";
+                            break; // Found duplicate, no need to check further for this subject
+                        }
+                    }
+                }
+            }
+            
+            if (!empty($duplicate_subjects)) {
+                return response()->json([
+                    'error' => 'Duplicate subjects found',
+                    'details' => $duplicate_subjects
+                ], 400);
+            }
+        }
+        
         if ($ol1_exists) {
 
             if ($request->olevel1_examilyear_t) {
@@ -183,6 +213,36 @@ class OlevelController extends Controller
         $ol1_exists = Olevel::where('reg_number', $request->reg_number)->first();
         $ol2_find = Olevel::where('olevel2_examno', $request->olevel2_examno)->first();
         $ol1_find = Olevel::where('olevel1_examno', $request->olevel2_examno)->first();
+        
+        // Check for duplicate subjects with O-Level 1
+        if ($ol1_exists) {
+            $duplicate_subjects = [];
+            for ($i = 1; $i <= 12; $i++) {
+                $ol2_subject_key = "ol2_s{$i}";
+                
+                if ($request->has($ol2_subject_key) && $request->$ol2_subject_key !== null) {
+                    $ol2_subject_value = $request->$ol2_subject_key;
+                    
+                    // Check if this subject exists in O-Level 1
+                    for ($j = 1; $j <= 12; $j++) {
+                        $ol1_subject_key = "ol1_s{$j}";
+                        
+                        if ($ol1_exists->$ol1_subject_key == $ol2_subject_value) {
+                            $duplicate_subjects[] = "Subject code {$ol2_subject_value} in Subject {$i} already exists in O-Level 1";
+                            break; // Found duplicate, no need to check further for this subject
+                        }
+                    }
+                }
+            }
+            
+            if (!empty($duplicate_subjects)) {
+                return response()->json([
+                    'error' => 'Duplicate subjects found',
+                    'details' => $duplicate_subjects
+                ], 400);
+            }
+        }
+        
         if ($ol1_exists) {
 
             if ($request->olevel2_examilyear_t) {
