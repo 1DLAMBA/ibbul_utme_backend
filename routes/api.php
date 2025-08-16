@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\ExamCourseController;
 use App\Http\Controllers\ExamGradeController;
 use App\Http\Controllers\ExamTypeController;
-use App\Http\Controllers\fileUploadController;
+use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\OlevelController;
 use App\Http\Controllers\UtmeResultController;
 use App\Models\utme_result;
