@@ -15,7 +15,7 @@ class AdminSeeder extends Seeder
     {
         DB::table('users')->updateOrInsert([
             'name' => 'Admin User',
-            'email' => 'admin@akum',
+            'email' => 'admin@ibbul',
             'email_verified_at' => now(),
             'password' => 'Admin11', // change 'password' to a secure password
             // 'remember_token' => Str::random(10),
