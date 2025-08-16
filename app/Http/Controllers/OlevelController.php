@@ -104,7 +104,7 @@ class OlevelController extends Controller
             
             if (!empty($duplicate_subjects)) {
                 return response()->json([
-                    'error' => 'Duplicate subjects found',
+                    'error' => "Duplicate subjects found: Each subject can only appear once across your two O'level",
                     'details' => $duplicate_subjects
                 ], 400);
             }
@@ -237,7 +237,7 @@ class OlevelController extends Controller
             
             if (!empty($duplicate_subjects)) {
                 return response()->json([
-                    'error' => 'Duplicate subjects found',
+                    'error' => "Duplicate subjects found: Each subject can only appear once across your two O'level",
                     'details' => $duplicate_subjects
                 ], 400);
             }

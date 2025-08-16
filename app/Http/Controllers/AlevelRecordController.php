@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AlevelRecord;
 use App\Http\Requests\StoreAlevelRecordRequest;
 use App\Http\Resources\AlevelRecordResource;
+use App\Models\Institution;
 
 class AlevelRecordController extends Controller
 {
@@ -29,14 +30,20 @@ class AlevelRecordController extends Controller
 
             $validated_data = $request->validated();
             $validated_data['reg_number'] = $reg_number;
-
+            if($validated_data['institution_name'] == 'others'){
+                $validated_data['institution_name'] = $validated_data['other_institution_name'];
+                $institution=Institution::create(['name'=>$validated_data['other_institution_name']]);
+            }
             $record = AlevelRecord::create($validated_data);
             return response()->json('success', 200);
         } else {
 
             $validated_data = $request->validated();
             $validated_data['reg_number'] = $reg_number;
-
+            if($validated_data['institution_name'] == 'others'){
+                $validated_data['institution_name'] = $validated_data['other_institution_name'];
+                $institution=Institution::create(['name'=>$validated_data['other_institution_name']]);
+            }
             $record = AlevelRecord::create($validated_data);
             return new AlevelRecordResource($record);
         }

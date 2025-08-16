@@ -21,6 +21,7 @@ class StoreAlevelRecordRequest extends FormRequest
     {
         return [
             'institution_name' => 'required|string|max:255',
+            'other_institution_name' => 'string|max:255',
             'candidate_name' => 'required|string|max:255',
             'year_of_issue' => 'required|digits:4',
             'course' => 'string|max:255',
