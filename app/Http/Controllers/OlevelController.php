@@ -78,8 +78,16 @@ class OlevelController extends Controller
         //
         Log::alert($request);
         $ol1_exists = Olevel::where('reg_number', $request->reg_number)->first();
-        $ol1_find = Olevel::where('olevel1_examno', $request->olevel1_examno)->first();
-        $ol2_find = Olevel::where('olevel2_examno', $request->olevel1_examno)->first();
+
+        // Find all records with the same exam number (for cross-candidate validation)
+        $ol1_conflicts = Olevel::where('olevel1_examno', $request->olevel1_examno)
+                              ->where('olevel1_examno', '!=', null)
+                              ->where('olevel1_examno', '!=', '')
+                              ->get();
+        $ol2_conflicts = Olevel::where('olevel2_examno', $request->olevel1_examno)
+                              ->where('olevel2_examno', '!=', null)
+                              ->where('olevel2_examno', '!=', '')
+                              ->get();
         
         // Check for duplicate subjects with O-Level 2
         if ($ol1_exists) {
@@ -111,87 +119,45 @@ class OlevelController extends Controller
         }
         
         if ($ol1_exists) {
-
-            if ($request->olevel1_examilyear_t) {
-
-                if ($ol1_find) {
-
-                    $found_ol1_reg = $ol1_find->reg_number;
-                    $found_ol1_year = $ol1_find->olevel1_examilyear_t;
-                    $found_ol2_year = $ol1_find->olevel2_examilyear_t;
-                    $request_ol1_examYr = $request->olevel1_examilyear_t;
-                    $check_years = $found_ol1_year == $request_ol1_examYr;
-                    // Check if exam number exists for a different user
-                    if ($reg_number == $ol1_find->reg_number) {
-                        if ($request->olevel1_examilyear_t == $ol1_find->olevel2_examilyear_t) {
-                            if ($request->olevel1_exam == $ol1_find->olevel2_exam) {
-                                if ($request->olevel1_examno == $ol1_find->olevel2_examno) {
-
-                                    return response()->json('Different Candidate Examination year exists with same examination number and exam type', 400);
-                                } else {
-                                    $oleve_utme = Olevel::where('reg_number', $reg_number)->first();
-                                    $validated_data = $request->validated();
-                                    $oleve_utme->update($validated_data);
-                                    return response()->json('success', 200);
-                                }
-                            } else {
-                                $oleve_utme = Olevel::where('reg_number', $reg_number)->first();
-                                $validated_data = $request->validated();
-                                $oleve_utme->update($validated_data);
-                                return response()->json('success', 200);
-                            }
-                        } else {
-                            $oleve_utme = Olevel::where('reg_number', $reg_number)->first();
-                            $validated_data = $request->validated();
-                            $oleve_utme->update($validated_data);
-                            return response()->json('success', 200);
-                        }
-                    } else {
-                        if ($request->olevel1_examilyear_t == $ol1_find->olevel1_examilyear_t || $ol1_find->olevel2_examilyear_t) {
-                            if ($request->olevel1_exam == $ol1_find->olevel2_exam || $ol1_find->olevel1_exam) {
-                                return response()->json('Candidate Examination year exists with same examination number and exam type', 400);
-                            } else {
-                                $oleve_utme = Olevel::where('reg_number', $reg_number)->first();
-                                $validated_data = $request->validated();
-                                $oleve_utme->update($validated_data);
-                                return response()->json('success', 200);
-                            }
-                        } else {
-                            $oleve_utme = Olevel::where('reg_number', $reg_number)->first();
-                            $validated_data = $request->validated();
-                            $oleve_utme->update($validated_data);
-                            return response()->json('success', 200);
-                        }
-                    }
-                } else {
-                    if ($ol2_find) {
-                        if ($ol2_find->olevel1_exam == $request->olevel1_exam) {
-                            if ($ol2_find->olevel2_examilyear_t == $request->olevel1_examilyear_t) {
-
-                                return response()->json('Different olevel Examination year exists with same examination number and exam type', 400);
-                            } else {
-                                $oleve_utme = Olevel::where('reg_number', $reg_number)->first();
-                                $validated_data = $request->validated();
-                                $oleve_utme->update($validated_data);
-                                return response()->json('success', 200);
-                            }
-                        } else {
-                            $oleve_utme = Olevel::where('reg_number', $reg_number)->first();
-                            $validated_data = $request->validated();
-                            $oleve_utme->update($validated_data);
-                            return response()->json('success', 200);
-                        }
-                    } else {
-
-                        $oleve_utme = Olevel::where('reg_number', $reg_number)->first();
-                        $validated_data = $request->validated();
-                        $oleve_utme->update($validated_data);
-                        return response()->json('success', 200);
-                    }
-                };
-            } else {
+            if (!$request->olevel1_examilyear_t) {
                 return response()->json('Exam year required', 400);
             }
+
+            // Check for conflicts with same candidate's O-Level 2
+            if ($ol1_exists->olevel2_examno == $request->olevel1_examno &&
+                $ol1_exists->olevel2_exam == $request->olevel1_exam &&
+                $ol1_exists->olevel2_examilyear_t == $request->olevel1_examilyear_t &&
+                $ol1_exists->olevel2_exammonth_t == $request->olevel1_exammonth_t) {
+
+                return response()->json('You cannot use the same examination number, type, year, and month for both O-Level 1 and O-Level 2', 400);
+            }
+
+            // Check for conflicts with other candidates' O-Level 1
+            foreach ($ol1_conflicts as $conflict) {
+                if ($conflict->reg_number != $reg_number &&
+                    $conflict->olevel1_exam == $request->olevel1_exam &&
+                    $conflict->olevel1_examilyear_t == $request->olevel1_examilyear_t &&
+                    $conflict->olevel1_exammonth_t == $request->olevel1_exammonth_t) {
+
+                    return response()->json('This examination number with the same type, year, and month already exists for another candidate\'s O-Level 1', 400);
+                }
+            }
+
+            // Check for conflicts with other candidates' O-Level 2
+            foreach ($ol2_conflicts as $conflict) {
+                if ($conflict->reg_number != $reg_number &&
+                    $conflict->olevel2_exam == $request->olevel1_exam &&
+                    $conflict->olevel2_examilyear_t == $request->olevel1_examilyear_t &&
+                    $conflict->olevel2_exammonth_t == $request->olevel1_exammonth_t) {
+
+                    return response()->json('This examination number with the same type, year, and month already exists for another candidate\'s O-Level 2', 400);
+                }
+            }
+
+            // No conflicts found, proceed with update
+            $validated_data = $request->validated();
+            $ol1_exists->update($validated_data);
+            return response()->json('success', 200);
         } else {
             // $oleve_utme = Olevel::where('reg_number', $reg_number)->first();
             $validated_data = $request->validated();
@@ -211,8 +177,16 @@ class OlevelController extends Controller
         //
         Log::alert($reg_number);
         $ol1_exists = Olevel::where('reg_number', $request->reg_number)->first();
-        $ol2_find = Olevel::where('olevel2_examno', $request->olevel2_examno)->first();
-        $ol1_find = Olevel::where('olevel1_examno', $request->olevel2_examno)->first();
+
+        // Find all records with the same exam number (for cross-candidate validation)
+        $ol1_conflicts = Olevel::where('olevel1_examno', $request->olevel2_examno)
+                              ->where('olevel1_examno', '!=', null)
+                              ->where('olevel1_examno', '!=', '')
+                              ->get();
+        $ol2_conflicts = Olevel::where('olevel2_examno', $request->olevel2_examno)
+                              ->where('olevel2_examno', '!=', null)
+                              ->where('olevel2_examno', '!=', '')
+                              ->get();
         
         // Check for duplicate subjects with O-Level 1
         if ($ol1_exists) {
@@ -244,87 +218,45 @@ class OlevelController extends Controller
         }
         
         if ($ol1_exists) {
-
-            if ($request->olevel2_examilyear_t) {
-
-                if ($ol1_find) {
-
-                    $found_ol1_reg = $ol1_find->reg_number;
-                    $found_ol1_year = $ol1_find->olevel1_examilyear_t;
-                    $found_ol2_year = $ol1_find->olevel2_examilyear_t;
-                    $request_ol1_examYr = $request->olevel1_examilyear_t;
-                    $check_years = $found_ol1_year == $request_ol1_examYr;
-                    // Check if exam number exists for a different user
-                    if ($reg_number == $ol1_find->reg_number) {
-                        if ($request->olevel2_examilyear_t == $ol1_find->olevel1_examilyear_t) {
-                            if ($request->olevel2_exam == $ol1_find->olevel1_exam) {
-                                if ($request->olevel2_examno == $ol1_find->olevel1_examno) {
-
-                                    return response()->json('Different Candidate Examination year exists with same examination number and exam type', 400);
-                                } else {
-                                    $oleve_utme = Olevel::where('reg_number', $reg_number)->first();
-                                    $validated_data = $request->validated();
-                                    $oleve_utme->update($validated_data);
-                                    return response()->json('success', 200);
-                                }
-                            } else {
-                                $oleve_utme = Olevel::where('reg_number', $reg_number)->first();
-                                $validated_data = $request->validated();
-                                $oleve_utme->update($validated_data);
-                                return response()->json('success', 200);
-                            }
-                        } else {
-                            $oleve_utme = Olevel::where('reg_number', $reg_number)->first();
-                            $validated_data = $request->validated();
-                            $oleve_utme->update($validated_data);
-                            return response()->json('success', 200);
-                        }
-                    } else {
-                        if ($request->olevel2_examilyear_t == $ol1_find->olevel2_examilyear_t || $ol1_find->olevel1_examilyear_t) {
-                            if ($request->olevel2_exam == $ol1_find->olevel1_exam || $ol1_find->olevel2_exam) {
-                                return response()->json('Candidate Examination year exists with same examination number and exam type', 400);
-                            } else {
-                                $oleve_utme = Olevel::where('reg_number', $reg_number)->first();
-                                $validated_data = $request->validated();
-                                $oleve_utme->update($validated_data);
-                                return response()->json('success', 200);
-                            }
-                        } else {
-                            $oleve_utme = Olevel::where('reg_number', $reg_number)->first();
-                            $validated_data = $request->validated();
-                            $oleve_utme->update($validated_data);
-                            return response()->json('success', 200);
-                        }
-                    }
-                } else {
-                    if ($ol2_find) {
-                        if ($ol2_find->olevel1_exam == $request->olevel1_exam) {
-                            if ($ol2_find->olevel2_examilyear_t == $request->olevel1_examilyear_t) {
-
-                                return response()->json('Different olevel Examination year exists with same examination number and exam type', 400);
-                            } else {
-                                $oleve_utme = Olevel::where('reg_number', $reg_number)->first();
-                                $validated_data = $request->validated();
-                                $oleve_utme->update($validated_data);
-                                return response()->json('success', 200);
-                            }
-                        } else {
-                            $oleve_utme = Olevel::where('reg_number', $reg_number)->first();
-                            $validated_data = $request->validated();
-                            $oleve_utme->update($validated_data);
-                            return response()->json('success', 200);
-                        }
-                    } else {
-
-                        $oleve_utme = Olevel::where('reg_number', $reg_number)->first();
-                        $validated_data = $request->validated();
-                        $oleve_utme->update($validated_data);
-                        return response()->json('success', 200);
-                    }
-                };
-            } else {
+            if (!$request->olevel2_examilyear_t) {
                 return response()->json('Exam year required', 400);
             }
+
+            // Check for conflicts with same candidate's O-Level 1
+            if ($ol1_exists->olevel1_examno == $request->olevel2_examno &&
+                $ol1_exists->olevel1_exam == $request->olevel2_exam &&
+                $ol1_exists->olevel1_examilyear_t == $request->olevel2_examilyear_t &&
+                $ol1_exists->olevel1_exammonth_t == $request->olevel2_exammonth_t) {
+
+                return response()->json('You cannot use the same examination number, type, year, and month for both O-Level 1 and O-Level 2', 400);
+            }
+
+            // Check for conflicts with other candidates' O-Level 1
+            foreach ($ol1_conflicts as $conflict) {
+                if ($conflict->reg_number != $reg_number &&
+                    $conflict->olevel1_exam == $request->olevel2_exam &&
+                    $conflict->olevel1_examilyear_t == $request->olevel2_examilyear_t &&
+                    $conflict->olevel1_exammonth_t == $request->olevel2_exammonth_t) {
+
+                    return response()->json('This examination number with the same type, year, and month already exists for another candidate\'s O-Level 1', 400);
+                }
+            }
+
+            // Check for conflicts with other candidates' O-Level 2
+            foreach ($ol2_conflicts as $conflict) {
+                if ($conflict->reg_number != $reg_number &&
+                    $conflict->olevel2_exam == $request->olevel2_exam &&
+                    $conflict->olevel2_examilyear_t == $request->olevel2_examilyear_t &&
+                    $conflict->olevel2_exammonth_t == $request->olevel2_exammonth_t) {
+
+                    return response()->json('This examination number with the same type, year, and month already exists for another candidate\'s O-Level 2', 400);
+                }
+            }
+
+            // No conflicts found, proceed with update
+            $validated_data = $request->validated();
+            $ol1_exists->update($validated_data);
+            return response()->json('success', 200);
         } else {
             // $oleve_utme = Olevel::where('reg_number', $reg_number)->first();
             $validated_data = $request->validated();
