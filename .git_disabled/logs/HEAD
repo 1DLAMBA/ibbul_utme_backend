@@ -1,0 +1,49 @@
+0000000000000000000000000000000000000000 019125f7951330b36db6d23eb2f3cfec39078401 Daniel <danielalamba15@gmail.com> 1724826405 +0100	commit (initial): first comit
+019125f7951330b36db6d23eb2f3cfec39078401 0000000000000000000000000000000000000000 Daniel <danielalamba15@gmail.com> 1724826668 +0100	Branch: renamed refs/heads/master to refs/heads/main
+0000000000000000000000000000000000000000 019125f7951330b36db6d23eb2f3cfec39078401 Daniel <danielalamba15@gmail.com> 1724826668 +0100	Branch: renamed refs/heads/master to refs/heads/main
+019125f7951330b36db6d23eb2f3cfec39078401 a08aca501758733fc52ba9cd84e89f49cc9283b8 Daniel <danielalamba15@gmail.com> 1724857975 +0100	commit: cant remember
+a08aca501758733fc52ba9cd84e89f49cc9283b8 a08aca501758733fc52ba9cd84e89f49cc9283b8 Daniel <danielalamba15@gmail.com> 1724858003 +0100	checkout: moving from main to dev
+a08aca501758733fc52ba9cd84e89f49cc9283b8 e7f9e7b8b998b709a2babb7a49e00aab73dec458 Daniel <danielalamba15@gmail.com> 1725152118 +0100	commit: check
+e7f9e7b8b998b709a2babb7a49e00aab73dec458 a08aca501758733fc52ba9cd84e89f49cc9283b8 Daniel <danielalamba15@gmail.com> 1725152147 +0100	checkout: moving from dev to main
+a08aca501758733fc52ba9cd84e89f49cc9283b8 e7f9e7b8b998b709a2babb7a49e00aab73dec458 Daniel <danielalamba15@gmail.com> 1725152161 +0100	pull origin dev: Fast-forward
+e7f9e7b8b998b709a2babb7a49e00aab73dec458 6278b17375c0e2abb65cdbe35413d7610e6b0932 Daniel <danielalamba15@gmail.com> 1725239381 +0100	commit: created the models and controller for DE results
+6278b17375c0e2abb65cdbe35413d7610e6b0932 ec304c719491925f98e61f6328f26177f936f336 Daniel <danielalamba15@gmail.com> 1725239437 +0100	pull: Merge made by the 'ort' strategy.
+ec304c719491925f98e61f6328f26177f936f336 ec304c719491925f98e61f6328f26177f936f336 Daniel <danielalamba15@gmail.com> 1725283103 +0100	reset: moving to HEAD
+ec304c719491925f98e61f6328f26177f936f336 ec304c719491925f98e61f6328f26177f936f336 Daniel <danielalamba15@gmail.com> 1725283116 +0100	checkout: moving from main to main
+ec304c719491925f98e61f6328f26177f936f336 e7f9e7b8b998b709a2babb7a49e00aab73dec458 Daniel <danielalamba15@gmail.com> 1725283124 +0100	checkout: moving from main to dev
+e7f9e7b8b998b709a2babb7a49e00aab73dec458 ec304c719491925f98e61f6328f26177f936f336 Daniel <danielalamba15@gmail.com> 1725283314 +0100	checkout: moving from dev to main
+ec304c719491925f98e61f6328f26177f936f336 ec304c719491925f98e61f6328f26177f936f336 Daniel <danielalamba15@gmail.com> 1725573397 +0100	reset: moving to HEAD
+ec304c719491925f98e61f6328f26177f936f336 e7f9e7b8b998b709a2babb7a49e00aab73dec458 Daniel <danielalamba15@gmail.com> 1725573412 +0100	checkout: moving from main to dev
+e7f9e7b8b998b709a2babb7a49e00aab73dec458 4255a6cc2024673c1e0dbfb70abc3f4a83d419ff Daniel <danielalamba15@gmail.com> 1725574200 +0100	commit: commiy
+4255a6cc2024673c1e0dbfb70abc3f4a83d419ff ec304c719491925f98e61f6328f26177f936f336 Daniel <danielalamba15@gmail.com> 1725574276 +0100	checkout: moving from dev to main
+ec304c719491925f98e61f6328f26177f936f336 ec304c719491925f98e61f6328f26177f936f336 Daniel <danielalamba15@gmail.com> 1725574299 +0100	reset: moving to HEAD
+ec304c719491925f98e61f6328f26177f936f336 4255a6cc2024673c1e0dbfb70abc3f4a83d419ff Daniel <danielalamba15@gmail.com> 1725574411 +0100	checkout: moving from main to dev
+4255a6cc2024673c1e0dbfb70abc3f4a83d419ff ae6b6c912dddd6ac7fdd70d23eee3b90e38011fb Daniel <danielalamba15@gmail.com> 1725574787 +0100	commit (merge): Merge branch 'main' of https://github.com/1DLAMBA/Akum_backend into dev
+ae6b6c912dddd6ac7fdd70d23eee3b90e38011fb ce4b9e7cf0722fb1f90c1c6811048874ae0e833e Daniel <danielalamba15@gmail.com> 1725574915 +0100	commit: 556
+ce4b9e7cf0722fb1f90c1c6811048874ae0e833e ec304c719491925f98e61f6328f26177f936f336 Daniel <danielalamba15@gmail.com> 1725574930 +0100	checkout: moving from dev to main
+ec304c719491925f98e61f6328f26177f936f336 56c17a088f53b16508f0d2785b8f2f880fe7641e Daniel <danielalamba15@gmail.com> 1725575069 +0100	commit: WIP on main: ec304c7 Merge branch 'main' of https://github.com/1DLAMBA/Akum_backend
+56c17a088f53b16508f0d2785b8f2f880fe7641e 913cc147a96dca39906e35ebcc4264e7f5bf6bcc Daniel <danielalamba15@gmail.com> 1725835910 +0100	commit: settled backend but no search abilities
+913cc147a96dca39906e35ebcc4264e7f5bf6bcc 019125f7951330b36db6d23eb2f3cfec39078401 Daniel <danielalamba15@gmail.com> 1725835919 +0100	checkout: moving from main to master
+019125f7951330b36db6d23eb2f3cfec39078401 ce4b9e7cf0722fb1f90c1c6811048874ae0e833e Daniel <danielalamba15@gmail.com> 1725835979 +0100	checkout: moving from master to dev
+ce4b9e7cf0722fb1f90c1c6811048874ae0e833e 913cc147a96dca39906e35ebcc4264e7f5bf6bcc Daniel <danielalamba15@gmail.com> 1725836107 +0100	checkout: moving from dev to main
+913cc147a96dca39906e35ebcc4264e7f5bf6bcc f68d6fd5dae0400a39f7aeed99137e04304d62f8 Daniel <danielalamba15@gmail.com> 1725837189 +0100	commit: settled backend with search capabilities
+f68d6fd5dae0400a39f7aeed99137e04304d62f8 8a5ad04c8861ca7e31bac23784e5df200c962cba Daniel <danielalamba15@gmail.com> 1726263129 +0100	commit: updated backend
+8a5ad04c8861ca7e31bac23784e5df200c962cba ce4b9e7cf0722fb1f90c1c6811048874ae0e833e Daniel <danielalamba15@gmail.com> 1726263140 +0100	checkout: moving from main to dev
+ce4b9e7cf0722fb1f90c1c6811048874ae0e833e 8a5ad04c8861ca7e31bac23784e5df200c962cba Daniel <danielalamba15@gmail.com> 1726263268 +0100	checkout: moving from dev to main
+8a5ad04c8861ca7e31bac23784e5df200c962cba 8a5ad04c8861ca7e31bac23784e5df200c962cba Daniel <danielalamba15@gmail.com> 1726263354 +0100	checkout: moving from main to work_branch
+8a5ad04c8861ca7e31bac23784e5df200c962cba 396b0af990549ce2b433bcca39c81cad950ecb07 Daniel <danielalamba15@gmail.com> 1726741148 +0100	commit: updated back
+396b0af990549ce2b433bcca39c81cad950ecb07 70cf08db6184bd1a04826cde41d91f2b7af56c68 Daniel <danielalamba15@gmail.com> 1726814492 +0100	commit: updated back
+70cf08db6184bd1a04826cde41d91f2b7af56c68 8a5ad04c8861ca7e31bac23784e5df200c962cba Daniel <danielalamba15@gmail.com> 1726814522 +0100	checkout: moving from work_branch to main
+8a5ad04c8861ca7e31bac23784e5df200c962cba 396b0af990549ce2b433bcca39c81cad950ecb07 Daniel <danielalamba15@gmail.com> 1726814588 +0100	pull origin work_branch: Fast-forward
+396b0af990549ce2b433bcca39c81cad950ecb07 70cf08db6184bd1a04826cde41d91f2b7af56c68 Daniel <danielalamba15@gmail.com> 1726814641 +0100	checkout: moving from main to work_branch
+70cf08db6184bd1a04826cde41d91f2b7af56c68 396b0af990549ce2b433bcca39c81cad950ecb07 Daniel <danielalamba15@gmail.com> 1726814663 +0100	checkout: moving from work_branch to main
+396b0af990549ce2b433bcca39c81cad950ecb07 70cf08db6184bd1a04826cde41d91f2b7af56c68 Daniel <danielalamba15@gmail.com> 1726814673 +0100	pull origin work_branch: Fast-forward
+70cf08db6184bd1a04826cde41d91f2b7af56c68 70cf08db6184bd1a04826cde41d91f2b7af56c68 Daniel <danielalamba15@gmail.com> 1726814689 +0100	checkout: moving from main to work_branch
+70cf08db6184bd1a04826cde41d91f2b7af56c68 70cf08db6184bd1a04826cde41d91f2b7af56c68 Daniel Alamba <danielalamba15@gmail.com> 1752583162 +0100	reset: moving to HEAD
+70cf08db6184bd1a04826cde41d91f2b7af56c68 70cf08db6184bd1a04826cde41d91f2b7af56c68 Daniel Alamba <danielalamba15@gmail.com> 1752584490 +0100	checkout: moving from work_branch to main
+70cf08db6184bd1a04826cde41d91f2b7af56c68 70cf08db6184bd1a04826cde41d91f2b7af56c68 Daniel Alamba <danielalamba15@gmail.com> 1752585041 +0100	checkout: moving from main to work_branch
+70cf08db6184bd1a04826cde41d91f2b7af56c68 0e6b3b85497f57578eb8ca1eb7c2d9f825d93774 Daniel Alamba <danielalamba15@gmail.com> 1755273847 +0100	commit: updated states
+0e6b3b85497f57578eb8ca1eb7c2d9f825d93774 d0b3e2ce3100dd4f90ed5ae5d1dfc38519d55e63 Daniel Alamba <danielalamba15@gmail.com> 1755326334 +0100	commit: updated backend olevel controllers
+d0b3e2ce3100dd4f90ed5ae5d1dfc38519d55e63 ba40baeee49c1cb4cec42f80d49294a0bfaaee37 Daniel Alamba <danielalamba15@gmail.com> 1755326482 +0100	commit: updated backend olevel controllers
+ba40baeee49c1cb4cec42f80d49294a0bfaaee37 31765ab76907e9351c8715478685bc80c6589f4b Daniel Alamba <danielalamba15@gmail.com> 1755340437 +0100	commit: updated institution, duplicate subject error
+31765ab76907e9351c8715478685bc80c6589f4b e702985a8723d264acc213e00857f6ed24f0ad89 Daniel Alamba <danielalamba15@gmail.com> 1755344474 +0100	commit: updated olevel controller validation and error handling

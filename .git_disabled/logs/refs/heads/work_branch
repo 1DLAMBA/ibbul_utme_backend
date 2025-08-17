@@ -1,0 +1,8 @@
+0000000000000000000000000000000000000000 8a5ad04c8861ca7e31bac23784e5df200c962cba Daniel <danielalamba15@gmail.com> 1726263354 +0100	branch: Created from HEAD
+8a5ad04c8861ca7e31bac23784e5df200c962cba 396b0af990549ce2b433bcca39c81cad950ecb07 Daniel <danielalamba15@gmail.com> 1726741148 +0100	commit: updated back
+396b0af990549ce2b433bcca39c81cad950ecb07 70cf08db6184bd1a04826cde41d91f2b7af56c68 Daniel <danielalamba15@gmail.com> 1726814492 +0100	commit: updated back
+70cf08db6184bd1a04826cde41d91f2b7af56c68 0e6b3b85497f57578eb8ca1eb7c2d9f825d93774 Daniel Alamba <danielalamba15@gmail.com> 1755273847 +0100	commit: updated states
+0e6b3b85497f57578eb8ca1eb7c2d9f825d93774 d0b3e2ce3100dd4f90ed5ae5d1dfc38519d55e63 Daniel Alamba <danielalamba15@gmail.com> 1755326334 +0100	commit: updated backend olevel controllers
+d0b3e2ce3100dd4f90ed5ae5d1dfc38519d55e63 ba40baeee49c1cb4cec42f80d49294a0bfaaee37 Daniel Alamba <danielalamba15@gmail.com> 1755326482 +0100	commit: updated backend olevel controllers
+ba40baeee49c1cb4cec42f80d49294a0bfaaee37 31765ab76907e9351c8715478685bc80c6589f4b Daniel Alamba <danielalamba15@gmail.com> 1755340437 +0100	commit: updated institution, duplicate subject error
+31765ab76907e9351c8715478685bc80c6589f4b e702985a8723d264acc213e00857f6ed24f0ad89 Daniel Alamba <danielalamba15@gmail.com> 1755344474 +0100	commit: updated olevel controller validation and error handling

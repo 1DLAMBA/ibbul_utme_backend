@@ -1,0 +1,12 @@
+0000000000000000000000000000000000000000 019125f7951330b36db6d23eb2f3cfec39078401 Daniel <danielalamba15@gmail.com> 1724826405 +0100	commit (initial): first comit
+019125f7951330b36db6d23eb2f3cfec39078401 019125f7951330b36db6d23eb2f3cfec39078401 Daniel <danielalamba15@gmail.com> 1724826668 +0100	Branch: renamed refs/heads/master to refs/heads/main
+019125f7951330b36db6d23eb2f3cfec39078401 a08aca501758733fc52ba9cd84e89f49cc9283b8 Daniel <danielalamba15@gmail.com> 1724857975 +0100	commit: cant remember
+a08aca501758733fc52ba9cd84e89f49cc9283b8 e7f9e7b8b998b709a2babb7a49e00aab73dec458 Daniel <danielalamba15@gmail.com> 1725152161 +0100	pull origin dev: Fast-forward
+e7f9e7b8b998b709a2babb7a49e00aab73dec458 6278b17375c0e2abb65cdbe35413d7610e6b0932 Daniel <danielalamba15@gmail.com> 1725239381 +0100	commit: created the models and controller for DE results
+6278b17375c0e2abb65cdbe35413d7610e6b0932 ec304c719491925f98e61f6328f26177f936f336 Daniel <danielalamba15@gmail.com> 1725239437 +0100	pull: Merge made by the 'ort' strategy.
+ec304c719491925f98e61f6328f26177f936f336 56c17a088f53b16508f0d2785b8f2f880fe7641e Daniel <danielalamba15@gmail.com> 1725575069 +0100	commit: WIP on main: ec304c7 Merge branch 'main' of https://github.com/1DLAMBA/Akum_backend
+56c17a088f53b16508f0d2785b8f2f880fe7641e 913cc147a96dca39906e35ebcc4264e7f5bf6bcc Daniel <danielalamba15@gmail.com> 1725835910 +0100	commit: settled backend but no search abilities
+913cc147a96dca39906e35ebcc4264e7f5bf6bcc f68d6fd5dae0400a39f7aeed99137e04304d62f8 Daniel <danielalamba15@gmail.com> 1725837189 +0100	commit: settled backend with search capabilities
+f68d6fd5dae0400a39f7aeed99137e04304d62f8 8a5ad04c8861ca7e31bac23784e5df200c962cba Daniel <danielalamba15@gmail.com> 1726263129 +0100	commit: updated backend
+8a5ad04c8861ca7e31bac23784e5df200c962cba 396b0af990549ce2b433bcca39c81cad950ecb07 Daniel <danielalamba15@gmail.com> 1726814588 +0100	pull origin work_branch: Fast-forward
+396b0af990549ce2b433bcca39c81cad950ecb07 70cf08db6184bd1a04826cde41d91f2b7af56c68 Daniel <danielalamba15@gmail.com> 1726814673 +0100	pull origin work_branch: Fast-forward
